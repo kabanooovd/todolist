@@ -2,30 +2,31 @@ import { Request, Response } from "express";
 import Task from "../Models/Task";
 import Todolist from "../Models/Todolist";
 import TodolistServices from "../Services/TodolistServices";
+import { exeptionHandler } from "../../utils/helper";
 
 class TodolistController {
 	async getAllTodos(req: Request, res: Response) {
 		try {
 			const todos = await TodolistServices.getAllTodos();
-			res.json(todos);
+			res.json({ quantity: todos.length, todolists: todos });
 		} catch (err) {
-			res.status(500).json(err);
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async createTodo(req: Request, res: Response) {
 		try {
 			await TodolistServices.createTodo(req.body.title);
-			res.json("Todo List has been created...");
+			res.json({ message: "Todo List has been created..." });
 		} catch (err) {
-			res.status(500).json(err);
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async removeTodo(req: Request, res: Response) {
 		try {
 			await TodolistServices.removeTodo(req.params._id);
-			res.json("Todo List has been removed... ");
+			res.json({ message: "Todo List has been removed... " });
 		} catch (err) {
-			res.status(500).json(err);
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async updateTodoList(req: Request, res: Response) {
@@ -36,9 +37,9 @@ class TodolistController {
 				throw new Error("todolist does not exist...");
 			}
 			await TodolistServices.updateTodoList(req.body);
-			res.json("Todo List has been updated... ");
+			res.json({ message: "Todo List has been updated... " });
 		} catch (err) {
-			res.status(500).json(err);
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async getTasksForCurrentTodo(req: Request, res: Response) {
@@ -46,9 +47,9 @@ class TodolistController {
 			const tasks = await Task.find({
 				todolistIdentificator: req.params._id,
 			});
-			return res.json(tasks);
+			return res.json({ quantity: tasks.length, tasks: tasks });
 		} catch (err) {
-			res.status(500).json(err);
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async createNewTask(req: Request, res: Response) {
@@ -57,26 +58,25 @@ class TodolistController {
 				throw new Error("todolist does not exist...");
 			}
 			await TodolistServices.createNewTask(req.body.title, req.params._id);
-			res.json("Task has been created...");
+			res.json({ message: "Task has been created..." });
 		} catch (err) {
-			res.status(500).json("Some error has occured... ");
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async removeTask(req: Request, res: Response) {
 		try {
 			await TodolistServices.removeTask(req.params.taskId);
-			res.json("task has been removed... ");
+			res.json({ message: "task has been removed... " });
 		} catch (err) {
-			res.status(500).json("Some error has occured... ");
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async updateTask(req: Request, res: Response) {
-		console.log(req.body);
 		try {
 			await TodolistServices.updateTask(req.body);
-			res.json("task has been updated... ");
+			res.json({ message: "task has been updated... " });
 		} catch (err) {
-			res.status(500).json("Some error has occured... ");
+			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 }
