@@ -6,6 +6,7 @@ import { exeptionHandler } from "../../utils/helper";
 
 class TodolistController {
 	async getAllTodos(req: Request, res: Response) {
+		console.log(req.headers);
 		try {
 			const todos = await TodolistServices.getAllTodos();
 			res.json({ quantity: todos.length, todolists: todos });

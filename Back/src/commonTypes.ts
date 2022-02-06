@@ -12,3 +12,5 @@ export interface TodolistTypes {
 	dateCreation: Date;
 	filtered: string;
 }
+
+export type UserRoleTypes = "USER" | "ADMIN";

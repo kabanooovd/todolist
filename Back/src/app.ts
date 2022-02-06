@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { PORT, url } from "../utils/config";
 import todolistsRoutes from "./Routs/todolistRoutes";
+import authRoutes from "./Routs/authRoute"
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.static("static"));
 app.use(cors());
 
 app.use("/api", todolistsRoutes);
+app.use("/api/auth", authRoutes);
 
 const start = async () => {
 	try {
