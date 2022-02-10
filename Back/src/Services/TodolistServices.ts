@@ -3,15 +3,15 @@ import Task from "../Models/Task";
 import Todolist from "../Models/Todolist";
 
 class TodolistServices {
-	async getAllTodos() {
-		return await Todolist.find();
+	async getAllTodos(userId: string) {
+		return await Todolist.find({userId});
 	}
-	async createTodo(todolistTitle: string) {
+	async createTodo(todolistTitle: string, userId: string) {
 		console.log("222");
 		const newTodo = new Todolist({
 			title: todolistTitle,
 			dateCreation: new Date(),
-			// tasks: [],
+			userId,
 			filtered: "all",
 		});
 		await newTodo.save();

@@ -5,13 +5,13 @@ import UserController from "../Controllers/AuthController";
 const authRoutes = express.Router();
 authRoutes.post(
 	"/registration",
-	// [
-	// 	check("userName", "Please, insert user name... ").notEmpty(),
-	// 	check("password", "Password should contain 4 - 10 signs... ").isLength({
-	// 		min: 4,
-	// 		max: 10,
-	// 	}),
-	// ],
+	[
+		check("userName", "Please, insert user name... ").notEmpty(),
+		check("password", "Password should contain 4 - 10 signs... ").isLength({
+			min: 4,
+			max: 10,
+		}),
+	],
 	UserController.registration
 );
 authRoutes.post("/login", UserController.login);

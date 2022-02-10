@@ -1,6 +1,16 @@
+// https://wanago.io/2018/12/24/typescript-express-registering-authenticating-jwt/
+
+////////////////////////////////
 {
-    "token": {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDQzMThlODdkOGIyNjlmYmM4N2ZjZiIsInVzZXJOYW1lIjoiRGltYXMiLCJyb2xlIjpbIlVTRVIiXSwiaWF0IjoxNjQ0NDQyMTIxLCJleHAiOjE2NDQ1Mjg1MjF9.f8BZyeuJdhJIzA9uPRul7t0xAKjm77X_N9z8ivBGASU",
-        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDQzMThlODdkOGIyNjlmYmM4N2ZjZiIsInVzZXJOYW1lIjoiRGltYXMiLCJyb2xlIjpbIlVTRVIiXSwiaWF0IjoxNjQ0NDQyMTIxLCJleHAiOjE2NDY1MTU3MjF9.MVptgxl_aHZrqwX2YrYAb9y2K-YdHnrrk93dhKj5gZw"
-    }
+    "userName": "Dimass111",
+	"password": "12345"
 }
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDU3ZWFkZmQ2OTg2YzhiNzY5NWI5YiIsInVzZXJOYW1lIjoiRGltYXNzMTExIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NDQ1MjczMDIsImV4cCI6MTY0NDYxMzcwMn0.MNEc4pyZoyVXI5Fx0USRrVxpEpaKTCcXujkGQzpqC0Y
+////////////////////////////////
+////////////////////////////////
+{
+    "userName": "Dimass222",
+	"password": "12345"
+}
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDU3ZWZjZmQ2OTg2YzhiNzY5NWJhMiIsInVzZXJOYW1lIjoiRGltYXNzMjIyIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2NDQ1MjczNzQsImV4cCI6MTY0NDYxMzc3NH0.jQRGX3t1upglxQTHDvjtissWlzrZHEBSpfOEui1xZOs
+////////////////////////////////

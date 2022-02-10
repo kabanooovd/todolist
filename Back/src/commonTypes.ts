@@ -1,3 +1,5 @@
+import { Request } from "express";
+
 export interface TaskTypes {
 	_id: string;
 	taskTitle: string;
@@ -11,6 +13,16 @@ export interface TodolistTypes {
 	title: string;
 	dateCreation: Date;
 	filtered: string;
+}
+
+export interface IReqCustom extends Request {
+	user?: IUser;
+}
+
+export interface IUser {
+	id: string;
+	userName: string;
+	role: string;
 }
 
 export type UserRoleTypes = "USER" | "ADMIN";

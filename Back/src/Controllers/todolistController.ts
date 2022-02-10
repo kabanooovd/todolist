@@ -1,32 +1,41 @@
 import { Request, Response } from "express";
 import Task from "../Models/Task";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import Todolist from "../Models/Todolist";
 import TodolistServices from "../Services/TodolistServices";
 import { exeptionHandler } from "../../utils/helper";
-import { SECRET_KEY } from "../../utils/config";
-import { IReqCustom } from "../middleWare/authMiddleWare";
+import { IReqCustom } from "../commonTypes";
 
 class TodolistController {
 	async getAllTodos(req: IReqCustom, res: Response) {
-		console.log(req.user)
 		try {
-			const todos = await TodolistServices.getAllTodos();
-			res.json({ quantity: todos.length, todolists: todos });
+			if (req.user) {
+				const todos = await TodolistServices.getAllTodos(req.user.id);
+				res.json({ quantity: todos.length, todolists: todos });
+			} else {
+				res
+					.status(400)
+					.json({ message: "Seems like some how you are not aouthorizaed..." });
+			}
 		} catch (err) {
 			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
-	async createTodo(req: Request, res: Response) {
+	async createTodo(req: IReqCustom, res: Response) {
 		try {
-			await TodolistServices.createTodo(req.body.title);
-			res.json({ message: "Todo List has been created..." });
+			if (req.user) {
+				await TodolistServices.createTodo(req.body.title, req.user.id);
+				res.json({ message: "Todo List has been created..." });
+			}
 		} catch (err) {
 			exeptionHandler(res, "Some Error has occured... ");
 		}
 	}
 	async removeTodo(req: Request, res: Response) {
 		try {
+			const currentTodo = await Todolist.findById(req.params._id);
+			if (!currentTodo) {
+				return res.status(400).json("todolist does not exist...");
+			}
 			await TodolistServices.removeTodo(req.params._id);
 			res.json({ message: "Todo List has been removed... " });
 		} catch (err) {
@@ -35,9 +44,10 @@ class TodolistController {
 	}
 	async updateTodoList(req: Request, res: Response) {
 		try {
+			console.log("dfdfdf");
 			const { _id } = req.body;
 			const currentTodo = await Todolist.findById(_id);
-			if (!currentTodo._id) {
+			if (!currentTodo) {
 				throw new Error("todolist does not exist...");
 			}
 			await TodolistServices.updateTodoList(req.body);
