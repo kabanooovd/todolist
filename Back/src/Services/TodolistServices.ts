@@ -7,6 +7,7 @@ class TodolistServices {
 		return await Todolist.find();
 	}
 	async createTodo(todolistTitle: string) {
+		console.log("222");
 		const newTodo = new Todolist({
 			title: todolistTitle,
 			dateCreation: new Date(),

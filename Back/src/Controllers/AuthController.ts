@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { generateJwt } from "../../utils/jwtUtils";
 import { emailValidator } from "../../utils/helper";
-
+import TokenServices from "../Services/TokenServices";
 class UserController {
 	async registration(req: Request, res: Response, next: NextFunction) {
 		try {
@@ -14,21 +14,23 @@ class UserController {
 				return res.status(400).json("Validation errors... ");
 			}
 			const { userName, password, email } = req.body;
-            if (emailValidator(email) === "INVALID") {
-                return res.status(400).json("Invalid email... ");
-            }
+			if (emailValidator(email) === "INVALID") {
+				return res.status(400).json("Invalid email... ");
+			}
 			const candidat = await User.findOne({ userName });
 			if (candidat) {
 				return res.status(400).json("Such user already exist... ");
 			}
 			const hashedPw = bcrypt.hashSync(password, 5);
-			const user = new User({
+			const user = await User.create({
 				userName,
 				password: hashedPw,
-                email,
+				email,
 				roles: ["USER"],
 			});
-			await user.save();
+
+			const tokens = generateJwt(user._id, user.userName, "USER");
+			await TokenServices.saveToke(user._id, tokens.refreshToken);
 			return res.json("User has been successfult subscribed... ");
 		} catch (err) {
 			console.log(err);
@@ -40,7 +42,7 @@ class UserController {
 			const { userName, password } = req.body;
 			const user = await User.findOne({ userName });
 			if (!user) {
-				return res.json(`User as ${userName} not found... `);
+				return res.json(`${userName} is not exist in db... `);
 			}
 			const validPassword = bcrypt.compareSync(password, user.password);
 			if (!validPassword) {

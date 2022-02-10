@@ -1,11 +1,11 @@
-import express from "express";
+import express, { Request } from "express";
 import todolistController from "../Controllers/todolistController";
 import { checkAuthMiddleware } from "../middleWare/authMiddleWare";
 
 const todolistsRoutes = express.Router();
 
-todolistsRoutes.get("/todolist", todolistController.getAllTodos);
-todolistsRoutes.post("/todolist", () => checkAuthMiddleware, todolistController.createTodo);
+todolistsRoutes.get("/todolist", checkAuthMiddleware, todolistController.getAllTodos);
+todolistsRoutes.post("/todolist", checkAuthMiddleware, todolistController.createTodo);
 todolistsRoutes.delete("/todolist/:_id", todolistController.removeTodo);
 todolistsRoutes.put("/todolist/", todolistController.updateTodoList);
 

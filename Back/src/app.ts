@@ -4,11 +4,11 @@ import cors from "cors";
 import { PORT, url } from "../utils/config";
 import todolistsRoutes from "./Routs/todolistRoutes";
 import authRoutes from "./Routs/authRoute"
+import { checkAuthMiddleware } from "./middleWare/authMiddleWare";
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static("static"));
 app.use(cors());
 
 app.use("/api", todolistsRoutes);

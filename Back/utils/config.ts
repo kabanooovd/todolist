@@ -5,3 +5,4 @@ const pw = "dimas";
 export const url = `mongodb+srv://${un}:${pw}@cluster0.mwi3t.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 export const SECRET_KEY = "LALALALALA_KAKAHA_RU"
+export const REFRESH_SECRET_KEY = "REFRESH_LALALALALA_KAKAHA_RU"

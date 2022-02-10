@@ -1,30 +1,38 @@
 import { NextFunction, Request, Response } from "express";
 import { IncomingHttpHeaders } from "http";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { isArray } from "util";
 import { SECRET_KEY } from "../../utils/config";
 import { UserRoleTypes } from "../commonTypes";
 
-interface IReqCustom<T> extends Request {
-	headers: IncomingHttpHeaders & T;
-	user: string | JwtPayload;
+interface IUser {
+	userName: string;
+	email: string;
+	roles: string[];
+  }
+export interface IReqCustom extends Request {
+	user?: any;
 }
 
 export function checkAuthMiddleware(
-	req: IReqCustom<{ authorization: string }>,
+	req: IReqCustom,
 	res: Response,
 	next: NextFunction
 ) {
 	if (req.method === "OPTIONS") {
 		next();
 	}
-
 	try {
-		const token = req.headers.authorization.split(" ")[1];
+		const token = req.get("Authorization");
+		// const token = req.headers["Authorization"]
+		console.log(token);
 		if (!token) {
-			return res.status(401).json({ message: "User not Authorized... " });
+			return res.status(401).json({ message: "User x not Authorized... " });
 		}
 		const decoded = jwt.verify(token, SECRET_KEY);
+		console.log(decoded);
 		req.user = decoded;
+		// req.setEncoding(jwt.verify(token, SECRET_KEY) as BufferEncoding);
 		next();
 	} catch (err) {
 		res.status(401).json({ message: "User not Authorized... " });
@@ -32,17 +40,13 @@ export function checkAuthMiddleware(
 }
 
 export const checkRoleMiddleware = (roles: UserRoleTypes[]) => {
-	return function (
-		req: IReqCustom<{ authorization: string }>,
-		res: Response,
-		next: NextFunction
-	) {
+	return function (req: IReqCustom, res: Response, next: NextFunction) {
 		if (req.method === "OPTIONS") {
 			next();
 		}
 
 		try {
-			const token = req.headers.authorization.split(" ")[1];
+			const token = req.get("Authorization");
 			if (!token) {
 				return res.status(401).json({ message: "User is not Authorized... " });
 			}

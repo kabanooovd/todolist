@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../utils/config";
+import { REFRESH_SECRET_KEY, SECRET_KEY } from "../utils/config";
 import { UserRoleTypes } from "../src/commonTypes";
 
 export const generateJwt = (
@@ -7,7 +7,11 @@ export const generateJwt = (
 	userName: string,
 	role: UserRoleTypes
 ) => {
-	return jwt.sign({ id, userName, role }, SECRET_KEY, {
+	const accessToken = jwt.sign({ id, userName, role }, SECRET_KEY, {
 		expiresIn: "24h",
 	});
+	const refreshToken = jwt.sign({ id, userName, role }, REFRESH_SECRET_KEY, {
+		expiresIn: "24d",
+	});
+	return { accessToken, refreshToken };
 };

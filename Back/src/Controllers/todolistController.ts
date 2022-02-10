@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import Task from "../Models/Task";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import Todolist from "../Models/Todolist";
 import TodolistServices from "../Services/TodolistServices";
 import { exeptionHandler } from "../../utils/helper";
+import { SECRET_KEY } from "../../utils/config";
+import { IReqCustom } from "../middleWare/authMiddleWare";
 
 class TodolistController {
-	async getAllTodos(req: Request, res: Response) {
-		console.log(req.headers);
+	async getAllTodos(req: IReqCustom, res: Response) {
+		console.log(req.user)
 		try {
 			const todos = await TodolistServices.getAllTodos();
 			res.json({ quantity: todos.length, todolists: todos });
