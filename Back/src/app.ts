@@ -7,7 +7,7 @@ import authRoutes from "./Routs/authRoute"
 import { checkAuthMiddleware } from "./middleWare/authMiddleWare";
 
 const app = express();
-
+// dima
 app.use(express.json());
 app.use(cors());
 
